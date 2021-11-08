@@ -1,0 +1,40 @@
+version: '3'
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1006
+      - PGID=119
+      - TZ=Asia/Tokyo
+      - SERVERPORT=51820
+      - PEERS=10
+      - PEERDNS=aaa.aaa.aaa.aaa
+      - INTERNAL_SUBNET=bbb.bbb.bbb.bbb
+      - ALLOWEDIPS=ddd.ddd.ddd.ddd/??,ddd.ddd.ddd.ddd/??
+    volumes:
+      - ./config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: always
+    networks:
+      vpn:
+        ipv4_address: eee.eee.eee.eee
+  dnsmasq:
+    build: ./peerdns
+    cap_add:
+      - NET_ADMIN
+    restart: always
+    networks:
+      vpn:
+        ipv4_address: aaa.aaa.aaa.aaa
+networks:
+  vpn:
+    external:
+      name: 'vpn_segment_vpn'

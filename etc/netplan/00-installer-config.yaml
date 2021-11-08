@@ -1,0 +1,27 @@
+network:
+  wifis:
+    wlp7s0:
+      addresses: [[本機の上流ネットワークのIPv4アドレス(CIDR)]]
+      gateway4: [上流ネットワークのルータのIPv4アドレス]
+      nameservers:
+        addresses: [[上流ネットワークのDNSサーバのIPv4アドレス]]
+      dhcp6: true
+      optional: false
+      access-points:
+        "SSID":
+           password: "miserarenaiyotoiukahirabundekakunomazuiyo"
+  ethernets:
+    enp8s0:
+      dhcp6: no
+      dhcp4: no
+  bridges:
+    br0:
+      interfaces: [enp8s0]
+      addresses: [[本機の下流ネットワークのIPv4アドレス(CIDR)] , [本機の下流ネットワークのIPv6アドレス(CIDR)]]
+      optional: false
+      dhcp6: no
+      dhcp4: no
+      parameters:
+        stp: false
+  renderer: NetworkManager
+  version: 2 

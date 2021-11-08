@@ -1,0 +1,22 @@
+version: '3'
+services:
+  samba:
+    build: .
+    ports:
+      - "139"
+      - "445"
+      - "137/udp"
+      - "138/udp"
+    volumes:
+      - "/mnt/internal/:/mnt/internal/:rw"
+      - "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:rw"
+      - "/etc/passwd:/etc/passwd:rw"
+      - "/etc/group:/etc/group:rw"
+      - "userinfo_data:/var/lib/samba/private/"
+    tty: yes
+    security_opt:
+      - apparmor:unconfined
+    network_mode: "host"
+    restart: always
+volumes:
+  userinfo_data:

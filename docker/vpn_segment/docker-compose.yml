@@ -1,0 +1,17 @@
+version: '3'
+services:
+  dummy:
+    image: busybox
+    command: /bin/sh
+    tty: true
+    networks:
+      vpn:
+        ipv4_address: ggg.ggg.ggg.ggg
+    restart: always
+networks:
+  vpn:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: hhh.hhh.hhh.hhh/??
